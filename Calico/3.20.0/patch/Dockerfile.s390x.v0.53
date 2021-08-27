@@ -1,5 +1,5 @@
 diff --git a/Dockerfile.s390x b/Dockerfile.s390x
-index 43752c0..06a0f87 100644
+index 2be3f65..2e67bc6 100644
 --- a/Dockerfile.s390x
 +++ b/Dockerfile.s390x
 @@ -1,23 +1,18 @@
@@ -35,7 +35,7 @@ index 43752c0..06a0f87 100644
  # Install su-exec for use in the entrypoint.sh (so processes run as the right user)
  # Install bash for the entry script (and because it's generally useful)
  # Install curl to download glide
-@@ -28,49 +23,90 @@ COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
+@@ -28,46 +23,90 @@ COPY --from=qemu /usr/bin/qemu-*-static /usr/bin/
  # Install make for building things
  # Install util-linux for column command (used for output formatting).
  # Install grep, sed, zip, and jq for use in some Makefiles (e.g. pulling versions out of glide.yaml)
@@ -129,9 +129,6 @@ index 43752c0..06a0f87 100644
 +RUN for i in ${QEMU_ARCHS}; do curl -L https://github.com/multiarch/qemu-user-static/releases/download/v${QEMU_VERSION}/qemu-${i}-static.tar.gz | tar zxvf - -C /usr/bin; done
 +RUN chmod +x /usr/bin/qemu-*
  
--# Install dep
--RUN go get github.com/golang/dep/cmd/dep
--
 -# Install ginkgo CLI tool for running tests
 -RUN go get github.com/onsi/ginkgo/ginkgo
 -
@@ -159,7 +156,7 @@ index 43752c0..06a0f87 100644
  
  # Ensure that everything under the GOPATH is writable by everyone
  RUN chmod -R 777 $GOPATH
-@@ -79,5 +115,8 @@ RUN curl -sSL https://github.com/estesp/manifest-tool/releases/download/${MANIFE
+@@ -76,5 +115,8 @@ RUN curl -sSL https://github.com/estesp/manifest-tool/releases/download/${MANIFE
      chmod +x manifest-tool && \
      mv manifest-tool /usr/bin/
  
@@ -169,16 +166,3 @@ index 43752c0..06a0f87 100644
  COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 -ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/entrypoint.sh"]
 +ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-diff --git a/Makefile b/Makefile
-index dcdb81e..c3076b0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -68,7 +68,7 @@ image: calico/go-build
- calico/go-build: register
- 	# Make sure we re-pull the base image to pick up security fixes.
- 	# Limit the build to use only one CPU, This helps to work around qemu bugs such as https://bugs.launchpad.net/qemu/+bug/1098729
--	docker build $(DOCKER_BUILD_ARGS) --pull -t $(ARCHIMAGE) -f $(DOCKERFILE) .
-+	docker build $(DOCKER_BUILD_ARGS) -t $(ARCHIMAGE) -f $(DOCKERFILE) .
- 
- image-all: $(addprefix sub-image-,$(ARCHES))
- sub-image-%:
