@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 0cbcced..2c33106 100644
+index 0ca64603..11338401 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -290,7 +290,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -242,7 +242,7 @@ run-kubernetes-master: stop-kubernetes-master
  	docker run \
  		--net=host --name st-apiserver-${KUBE_APISERVER_PORT} \
  		--detach \
@@ -11,7 +11,7 @@ index 0cbcced..2c33106 100644
  			--bind-address=0.0.0.0 \
  			--secure-port=1${KUBE_APISERVER_PORT} \
  			--insecure-bind-address=0.0.0.0 \
-@@ -308,7 +308,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -260,7 +260,7 @@ run-kubernetes-master: stop-kubernetes-master
  	docker run \
  		--net=host --name st-controller-manager-${KUBE_APISERVER_PORT} \
  		--detach \
@@ -20,7 +20,7 @@ index 0cbcced..2c33106 100644
                          --master=127.0.0.1:${KUBE_APISERVER_PORT} \
                          --min-resync-period=3m \
                          --allocate-node-cidrs=true \
-@@ -320,7 +320,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -272,7 +272,7 @@ run-kubernetes-master: stop-kubernetes-master
  	    --net=host \
  	    --rm \
  		-v $(CURDIR):/manifests \
@@ -29,7 +29,7 @@ index 0cbcced..2c33106 100644
  		--server=http://127.0.0.1:${KUBE_APISERVER_PORT} \
  		apply -f /manifests/tests/st/manifests/${KUBE_MOCK_NODE_MANIFEST}; \
  		do echo "Waiting for node to apply successfully..."; sleep 2; done
-@@ -329,7 +329,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -291,7 +291,7 @@ run-kubernetes-master: stop-kubernetes-master
  	-docker run \
  	    --net=host \
  	    --rm \
@@ -43,7 +43,7 @@ index a974297e..61eefabc 100644
 --- a/tests/fv/utils/calicoctl.go
 +++ b/tests/fv/utils/calicoctl.go
 @@ -23,7 +23,7 @@ import (
-        log "github.com/sirupsen/logrus"
+ 	log "github.com/sirupsen/logrus"
  )
  
 -var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-amd64"
@@ -51,7 +51,6 @@ index a974297e..61eefabc 100644
  var version_helper = "/go/src/github.com/projectcalico/calicoctl/tests/fv/helper/bin/calico_version_helper"
  
  func getEnv(kdd bool) []string {
-
 diff --git a/tests/st/utils/utils.py b/tests/st/utils/utils.py
 index ef315dde..bf5b28d4 100644
 --- a/tests/st/utils/utils.py
