@@ -39,20 +39,21 @@ index 0cbcced..2c33106 100644
  		create namespace test
  	
 diff --git a/tests/fv/utils/calicoctl.go b/tests/fv/utils/calicoctl.go
-index bc78ea3..bb4f867 100644
+index a974297e..61eefabc 100644
 --- a/tests/fv/utils/calicoctl.go
 +++ b/tests/fv/utils/calicoctl.go
 @@ -23,7 +23,7 @@ import (
- 	log "github.com/sirupsen/logrus"
+        log "github.com/sirupsen/logrus"
  )
  
 -var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-amd64"
 +var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-s390x"
+ var version_helper = "/go/src/github.com/projectcalico/calicoctl/tests/fv/helper/bin/calico_version_helper"
  
- func Calicoctl(kdd bool, args ...string) string {
- 	out, err := CalicoctlMayFail(kdd, args...)
+ func getEnv(kdd bool) []string {
+
 diff --git a/tests/st/utils/utils.py b/tests/st/utils/utils.py
-index e247a11..6dc93fc 100644
+index ef315dde..bf5b28d4 100644
 --- a/tests/st/utils/utils.py
 +++ b/tests/st/utils/utils.py
 @@ -221,7 +221,7 @@ def calicoctl(command, data=None, load_as_stdin=False, format="yaml", only_stdou
@@ -62,5 +63,5 @@ index e247a11..6dc93fc 100644
 -    calicoctl_bin = os.environ.get("CALICOCTL", "/code/bin/calicoctl-linux-amd64")
 +    calicoctl_bin = os.environ.get("CALICOCTL", "/code/bin/calicoctl-linux-s390x")
  
-     if ETCD_SCHEME == "https":
-         etcd_auth = "%s:2379" % ETCD_HOSTNAME_SSL
+     if allowVersionMismatch:
+         calicoctl_bin += " --allow-version-mismatch"
