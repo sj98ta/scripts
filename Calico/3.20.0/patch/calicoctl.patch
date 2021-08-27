@@ -51,6 +51,7 @@ index a974297e..61eefabc 100644
  var version_helper = "/go/src/github.com/projectcalico/calicoctl/tests/fv/helper/bin/calico_version_helper"
  
  func getEnv(kdd bool) []string {
+
 diff --git a/tests/st/utils/utils.py b/tests/st/utils/utils.py
 index ef315dde..bf5b28d4 100644
 --- a/tests/st/utils/utils.py
