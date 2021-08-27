@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 0cbcced..2c33106 100644
+index 0ca64603..11338401 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -290,7 +290,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -242,7 +242,7 @@ run-kubernetes-master: stop-kubernetes-master
  	docker run \
  		--net=host --name st-apiserver-${KUBE_APISERVER_PORT} \
  		--detach \
@@ -11,7 +11,7 @@ index 0cbcced..2c33106 100644
  			--bind-address=0.0.0.0 \
  			--secure-port=1${KUBE_APISERVER_PORT} \
  			--insecure-bind-address=0.0.0.0 \
-@@ -308,7 +308,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -260,7 +260,7 @@ run-kubernetes-master: stop-kubernetes-master
  	docker run \
  		--net=host --name st-controller-manager-${KUBE_APISERVER_PORT} \
  		--detach \
@@ -20,7 +20,7 @@ index 0cbcced..2c33106 100644
                          --master=127.0.0.1:${KUBE_APISERVER_PORT} \
                          --min-resync-period=3m \
                          --allocate-node-cidrs=true \
-@@ -320,7 +320,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -272,7 +272,7 @@ run-kubernetes-master: stop-kubernetes-master
  	    --net=host \
  	    --rm \
  		-v $(CURDIR):/manifests \
@@ -29,7 +29,7 @@ index 0cbcced..2c33106 100644
  		--server=http://127.0.0.1:${KUBE_APISERVER_PORT} \
  		apply -f /manifests/tests/st/manifests/${KUBE_MOCK_NODE_MANIFEST}; \
  		do echo "Waiting for node to apply successfully..."; sleep 2; done
-@@ -329,7 +329,7 @@ run-kubernetes-master: stop-kubernetes-master
+@@ -291,7 +291,7 @@ run-kubernetes-master: stop-kubernetes-master
  	-docker run \
  	    --net=host \
  	    --rm \
@@ -39,7 +39,7 @@ index 0cbcced..2c33106 100644
  		create namespace test
  	
 diff --git a/tests/fv/utils/calicoctl.go b/tests/fv/utils/calicoctl.go
-index bc78ea3..bb4f867 100644
+index a974297e..61eefabc 100644
 --- a/tests/fv/utils/calicoctl.go
 +++ b/tests/fv/utils/calicoctl.go
 @@ -23,7 +23,7 @@ import (
@@ -48,11 +48,11 @@ index bc78ea3..bb4f867 100644
  
 -var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-amd64"
 +var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-s390x"
+ var version_helper = "/go/src/github.com/projectcalico/calicoctl/tests/fv/helper/bin/calico_version_helper"
  
- func Calicoctl(kdd bool, args ...string) string {
- 	out, err := CalicoctlMayFail(kdd, args...)
+ func getEnv(kdd bool) []string {
 diff --git a/tests/st/utils/utils.py b/tests/st/utils/utils.py
-index e247a11..6dc93fc 100644
+index ef315dde..bf5b28d4 100644
 --- a/tests/st/utils/utils.py
 +++ b/tests/st/utils/utils.py
 @@ -221,7 +221,7 @@ def calicoctl(command, data=None, load_as_stdin=False, format="yaml", only_stdou
@@ -62,5 +62,5 @@ index e247a11..6dc93fc 100644
 -    calicoctl_bin = os.environ.get("CALICOCTL", "/code/bin/calicoctl-linux-amd64")
 +    calicoctl_bin = os.environ.get("CALICOCTL", "/code/bin/calicoctl-linux-s390x")
  
-     if ETCD_SCHEME == "https":
-         etcd_auth = "%s:2379" % ETCD_HOSTNAME_SSL
+     if allowVersionMismatch:
+         calicoctl_bin += " --allow-version-mismatch"
