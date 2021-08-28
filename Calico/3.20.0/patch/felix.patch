@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 630d55e1..8e4bc45d 100644
+index cb4bdb9c..57662093 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -98,7 +98,7 @@ FV_NUM_BATCHES?=1
+@@ -102,7 +102,7 @@ FV_NUM_BATCHES?=1
  # (with FV_NUM_BATCHES=1) to check that it's not a flake.
  FV_BATCHES_TO_RUN?=$(shell seq $(FV_NUM_BATCHES))
  FV_SLOW_SPEC_THRESH=90
@@ -11,15 +11,15 @@ index 630d55e1..8e4bc45d 100644
  
  # Linker flags for building Felix.
  #
-@@ -258,26 +258,26 @@ $(BUILD_IMAGE)-$(ARCH): bin/calico-felix-$(ARCH) \
+@@ -257,24 +257,24 @@ $(FELIX_IMAGE)-$(ARCH): bin/calico-felix-$(ARCH) \
  	mkdir -p docker-image/bpf/bin
  	# Copy only the files we're explicitly expecting (in case we have left overs after switching branch).
  	cp $(ALL_BPF_PROGS) docker-image/bpf/bin
--	docker build --pull -t $(BUILD_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --file ./docker-image/Dockerfile.$(ARCH) docker-image;
+-	docker build --pull -t $(FELIX_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --file ./docker-image/Dockerfile.$(ARCH) docker-image;
 -ifeq ($(ARCH),amd64)
-+	docker build -t $(BUILD_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --file ./docker-image/Dockerfile.$(ARCH) docker-image;
++	docker build -t $(FELIX_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --file ./docker-image/Dockerfile.$(ARCH) docker-image;
 +ifeq ($(ARCH),s390x)
- 	docker tag $(BUILD_IMAGE):latest-$(ARCH) $(BUILD_IMAGE):latest
+ 	docker tag $(FELIX_IMAGE):latest-$(ARCH) $(FELIX_IMAGE):latest
  endif
  
  ifeq ($(FV_RACE_DETECTOR_ENABLED),true)
@@ -31,20 +31,17 @@ index 630d55e1..8e4bc45d 100644
  
 -image-test: image fv/Dockerfile.test.amd64 bin/pktgen bin/test-workload bin/test-connection bin/$(FV_BINARY) image-wgtool
 +image-test: image fv/Dockerfile.test.s390x bin/pktgen bin/test-workload bin/test-connection bin/$(FV_BINARY) image-wgtool
- 	docker build -t $(BUILD_IMAGE)-test:latest-$(ARCH) --build-arg FV_BINARY=$(FV_BINARY) --file ./fv/Dockerfile.test.$(ARCH) bin;
+ 	docker build -t $(FELIX_IMAGE)-test:latest-$(ARCH) --build-arg FV_BINARY=$(FV_BINARY) --file ./fv/Dockerfile.test.$(ARCH) bin;
 -ifeq ($(ARCH),amd64)
 +ifeq ($(ARCH),s390x)
- 	docker tag $(BUILD_IMAGE)-test:latest-$(ARCH) $(BUILD_IMAGE)-test:latest
+ 	docker tag $(FELIX_IMAGE)-test:latest-$(ARCH) $(FELIX_IMAGE)-test:latest
  endif
  
 -image-wgtool: fv/Dockerfile.wgtool.amd64
 +image-wgtool: fv/Dockerfile.wgtool.s390x
- 	docker build -t $(BUILD_IMAGE)-wgtool:latest-$(ARCH) --file ./fv/Dockerfile.wgtool.$(ARCH) fv;
--ifeq ($(ARCH),amd64)
-+ifeq ($(ARCH),s390x)
- 	docker tag $(BUILD_IMAGE)-wgtool:latest-$(ARCH) $(BUILD_IMAGE)-wgtool:latest
- endif
- 
+ 	docker build -t $(FELIX_IMAGE)-wgtool:latest-$(ARCH) --file ./fv/Dockerfile.wgtool.$(ARCH) fv;
+ ifeq ($(ARCH),amd64)
+ 	docker tag $(FELIX_IMAGE)-wgtool:latest-$(ARCH) $(FELIX_IMAGE)-wgtool:latest
 diff --git a/docker-image/Dockerfile.s390x b/docker-image/Dockerfile.s390x
 index 6608744e..a7ec9840 100644
 --- a/docker-image/Dockerfile.s390x
