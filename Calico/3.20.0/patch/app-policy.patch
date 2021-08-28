@@ -6,15 +6,15 @@ index 00bc5c2..eabfc67 100644
  		      $(PROTOC_CONTAINER) \
  		      $(PROTOC_IMPORTS) \
  		      proto/*.proto \
--		      --gogofast_out=plugins=grpc,$(PROTOC_MAPPINGS):proto
+-		      --gogofast_out=plugins=grpc:proto
 +		      --gogofaster_out=plugins=grpc,$(PROTOC_MAPPINGS):proto
  
  proto/healthz.pb.go: proto/healthz.proto
- 	$(DOCKER_RUN_PB) -v $(CURDIR):/src:rw \
+ 	$(DOCKER_RUN) -v $(CURDIR):/src:rw \
  		      $(PROTOC_CONTAINER) \
  		      $(PROTOC_IMPORTS) \
  		      proto/*.proto \
--		      --gogofast_out=plugins=grpc,$(PROTOC_MAPPINGS):proto
+-		      --gogofast_out=plugins=grpc:proto
 +		      --gogofaster_out=plugins=grpc,$(PROTOC_MAPPINGS):proto
  
  
