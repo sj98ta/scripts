@@ -7,7 +7,7 @@ index 2a5be7c..b01f22f 100644
  	cp bin/calico-typha-$(ARCH) docker-image/bin/
  	cp LICENSE docker-image/
 -	docker build --pull -t $(TYPHA_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --build-arg GIT_VERSION=$(GIT_VERSION) --file ./docker-image/Dockerfile.$(ARCH) docker-image
-+	docker build -t $(BUILD_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --build-arg GIT_VERSION=$(GIT_VERSION) --file ./docker-image/Dockerfile.$(ARCH) docker-image
++	docker build -t $(TYPHA_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --build-arg GIT_VERSION=$(GIT_VERSION) --file ./docker-image/Dockerfile.$(ARCH) docker-image
  ifeq ($(ARCH),amd64)
  	docker tag $(TYPHA_IMAGE):latest-$(ARCH) $(TYPHA_IMAGE):latest
  endif
