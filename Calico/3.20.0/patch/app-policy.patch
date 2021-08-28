@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 4487725..736558f 100644
+index 00bc5c2..eabfc67 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -273,14 +273,14 @@ proto/felixbackend.pb.go: proto/felixbackend.proto
+@@ -149,14 +149,14 @@ proto/felixbackend.pb.go: proto/felixbackend.proto
  		      $(PROTOC_CONTAINER) \
  		      $(PROTOC_IMPORTS) \
  		      proto/*.proto \
