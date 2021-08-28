@@ -4,7 +4,7 @@ index 2a5be7c..b01f22f 100644
 +++ b/Makefile
 @@ -137,7 +137,7 @@ $(TYPHA_IMAGE): bin/calico-typha-$(ARCH) register
  	mkdir -p docker-image/bin
- 	cp bin/calico-typha-$(ARCH) docker-image/bin/
+	cp bin/calico-typha-$(ARCH) docker-image/bin/
  	cp LICENSE docker-image/
 -	docker build --pull -t $(TYPHA_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --build-arg GIT_VERSION=$(GIT_VERSION) --file ./docker-image/Dockerfile.$(ARCH) docker-image
 +	docker build -t $(BUILD_IMAGE):latest-$(ARCH) --build-arg QEMU_IMAGE=$(CALICO_BUILD) --build-arg GIT_VERSION=$(GIT_VERSION) --file ./docker-image/Dockerfile.$(ARCH) docker-image
