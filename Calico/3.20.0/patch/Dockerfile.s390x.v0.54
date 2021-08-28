@@ -52,7 +52,7 @@ index 2be3f65..2e67bc6 100644
 +        libbpf-dev linux-headers-s390x  && \
 +    apt-get install --no-install-recommends -y \
 +        curl bash git openssh-client mercurial make wget util-linux file grep sed jq zip \
-+        llvm clang binutils file iproute2 \
++        llvm-11 clang-11 binutils file iproute2 \
 +        ca-certificates gcc libc-dev bsdmainutils strace libpcap-dev && \
 +    rm -rf /var/lib/apt/lists/*
 +
