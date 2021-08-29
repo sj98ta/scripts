@@ -1,8 +1,38 @@
 diff --git a/Makefile b/Makefile
-index 1ad9669f..fe8934d6 100644
+index b02fa245..72dec50c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -501,17 +501,17 @@ $(RELEASE_DIR_BIN)/%:
+@@ -148,7 +148,7 @@ $(addsuffix -dev-image,$(RELEASE_REPOS)): %-dev-image: ../%
+ 	echo "TARGET:"
+ 	echo $< 
+ 	@cd $< && export TAG=$$($(TAG_COMMAND)); make image retag-build-images-with-registries \
+-		ARCHES=amd64 \
++		ARCHES=s390x \
+ 		BUILD_IMAGE=$(REGISTRY)/$* \
+ 		PUSH_IMAGES=$(REGISTRY)/$* \
+ 		LOCAL_BUILD=$(LOCAL_BUILD) \
+@@ -205,13 +205,13 @@ dev-images-file:
+ 
+ # Builds a versions.yaml file that corresponds to the versions produced by the `dev-image` target.
+ dev-versions-yaml:
+-	@export TYPHA_VER=`cd ../typha && $(TAG_COMMAND)`-amd64; \
+-	export CTL_VER=`cd ../calicoctl && $(TAG_COMMAND)`-amd64; \
+-	export NODE_VER=`cd ../node && $(TAG_COMMAND)`-amd64; \
+-	export CNI_VER=`cd ../cni-plugin && $(TAG_COMMAND)`-amd64; \
+-	export KUBE_CONTROLLERS_VER=`cd ../kube-controllers && $(TAG_COMMAND)`-amd64; \
+-	export APP_POLICY_VER=`cd ../app-policy && $(TAG_COMMAND)`-amd64; \
+-	export POD2DAEMON_VER=`cd ../pod2daemon && $(TAG_COMMAND)`-amd64; \
++	@export TYPHA_VER=`cd ../typha && $(TAG_COMMAND)`-s390x; \
++	export CTL_VER=`cd ../calicoctl && $(TAG_COMMAND)`-s390x; \
++	export NODE_VER=`cd ../node && $(TAG_COMMAND)`-s390x; \
++	export CNI_VER=`cd ../cni-plugin && $(TAG_COMMAND)`-s390x; \
++	export KUBE_CONTROLLERS_VER=`cd ../kube-controllers && $(TAG_COMMAND)`-s390x; \
++	export APP_POLICY_VER=`cd ../app-policy && $(TAG_COMMAND)`-s390x; \
++	export POD2DAEMON_VER=`cd ../pod2daemon && $(TAG_COMMAND)`-s390x; \
+ 	/bin/echo -e \
+ "- title: \"dev-build\"\\n"\
+ "  note: \"Developer build\"\\n"\
+@@ -532,17 +532,17 @@ $(RELEASE_DIR_BIN)/%:
  bin/helm: bin/helm3
  	mkdir -p bin
  	$(eval TMP := $(shell mktemp -d))
