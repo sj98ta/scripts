@@ -20,7 +20,7 @@ index c6824aa..d57a7dd 100644
  # limitations under the License.
  
 -ARG QEMU_IMAGE=calico/go-build:latest
-+ARG QEMU_IMAGE=calico/go-build:v0.49
++ARG QEMU_IMAGE=calico/go-build:v0.53
  FROM ${QEMU_IMAGE} as qemu
  
  FROM s390x/debian:9.8-slim as base
